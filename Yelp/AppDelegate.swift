@@ -3,6 +3,7 @@
 //  Yelp
 //
 //  Created by Timothy Lee on 9/19/14.
+//  Editted by Jason Wong
 //  Copyright (c) 2014 Timothy Lee. All rights reserved.
 //
 
@@ -16,6 +17,12 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
 
     func application(_ application: UIApplication, didFinishLaunchingWithOptions launchOptions: [UIApplicationLaunchOptionsKey: Any]?) -> Bool {
         // Override point for customization after application launch.
+        
+        var navigationBarAppearance = UINavigationBar.appearance()
+        navigationBarAppearance.barTintColor = UIColor.red
+
+        
+        
         return true
     }
 
