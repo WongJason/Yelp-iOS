@@ -8,16 +8,21 @@
 //
 
 import UIKit
+import MapKit
 
 
-class BusinessesViewController: UIViewController, UITableViewDelegate, UITableViewDataSource {
+class BusinessesViewController: UIViewController, UITableViewDelegate, UITableViewDataSource, UIScrollViewDelegate {
     
+    @IBOutlet weak var mapView: MKMapView!
     @IBOutlet weak var tableView: UITableView!
     var businesses: [Business]!
     var searchBar: UISearchBar!
     var term: String?
     
+    
     var filterbusinesses: [Business]!
+    var offset = 0
+    var isMoreDataLoading = false
     
     
     override func viewDidLoad() {
@@ -31,6 +36,10 @@ class BusinessesViewController: UIViewController, UITableViewDelegate, UITableVi
         searchBar.delegate = self
         
         
+        //navigationItem.rightBarButtonItem = UIBarButtonItem()
+        
+        
+        
         //searchDisplayController?.displaysSearchBarInNavigationBar = true
         
         
@@ -41,10 +50,12 @@ class BusinessesViewController: UIViewController, UITableViewDelegate, UITableVi
         
         
         
-        Business.searchWithTerm(term: "Thai", completion: { (businesses: [Business]?, error: Error?) -> Void in
+        Business.searchWithTerm(term: "Thai", limit: nil, offset: nil, completion: { (businesses: [Business]?, error: Error?) -> Void in
             
             self.businesses = businesses
             self.filterbusinesses = businesses
+            print("initial count \(businesses!.count)")
+            //self.offset += 20
             self.tableView.reloadData()
             
             
@@ -95,7 +106,7 @@ class BusinessesViewController: UIViewController, UITableViewDelegate, UITableVi
     }
     
     
-    
+    //searchs through businesses[]
     func searchBar(_ searchBar: UISearchBar, textDidChange searchText: String)
     {
         if searchText.isEmpty {
@@ -113,6 +124,41 @@ class BusinessesViewController: UIViewController, UITableViewDelegate, UITableVi
         
     }
     
+    
+    func scrollViewDidScroll(_ scrollView: UIScrollView) {
+        if (!isMoreDataLoading) {
+            // Calculate the position of one screen length before the bottom of the results
+            let scrollViewContentHeight = tableView.contentSize.height
+            let scrollOffsetThreshold = scrollViewContentHeight - tableView.bounds.size.height
+            
+            // When the user has scrolled past the threshold, start requesting
+            if(scrollView.contentOffset.y > scrollOffsetThreshold && tableView.isDragging) {
+                isMoreDataLoading = true
+                loadMoreData()
+            }
+            
+        }
+        
+        
+    }
+    
+    func loadMoreData(){
+        
+        self.offset += 20
+        
+        Business.searchWithTerm(term: "Thai", limit: nil, offset: self.offset, completion: { (businesses: [Business]?, error: Error?) -> Void in
+            
+            print("offset is!!!!!! \(self.offset)")
+            self.businesses.append(contentsOf: businesses!)
+            self.filterbusinesses = self.businesses
+            self.isMoreDataLoading = false
+            self.tableView.reloadData()
+        
+            
+        })
+        
+        
+    }
     
     
     
@@ -154,7 +200,6 @@ extension BusinessesViewController: UISearchBarDelegate {
     }
     
     func searchBarSearchButtonClicked(_ searchBar: UISearchBar) {
-        //searchSettings.searchString = searchBar.text
         searchBar.resignFirstResponder()
     
     }

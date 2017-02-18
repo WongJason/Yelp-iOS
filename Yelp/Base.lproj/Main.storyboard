@@ -25,7 +25,7 @@
                                         <rect key="frame" x="0.0" y="92" width="375" height="153"/>
                                         <autoresizingMask key="autoresizingMask"/>
                                         <tableViewCellContentView key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" tableViewCell="tJK-IR-Scb" id="yhZ-g0-5To">
-                                            <frame key="frameInset" width="375" height="153"/>
+                                            <frame key="frameInset" width="375" height="152"/>
                                             <autoresizingMask key="autoresizingMask"/>
                                             <subviews>
                                                 <imageView userInteractionEnabled="NO" contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" translatesAutoresizingMaskIntoConstraints="NO" id="XjP-wi-XmM">
@@ -106,6 +106,10 @@
                                     </tableViewCell>
                                 </prototypes>
                             </tableView>
+                            <mapView clipsSubviews="YES" multipleTouchEnabled="YES" alpha="0.0" contentMode="scaleToFill" fixedFrame="YES" mapType="standard" translatesAutoresizingMaskIntoConstraints="NO" id="yES-vH-gGh">
+                                <frame key="frameInset" width="375" height="667"/>
+                                <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
+                            </mapView>
                         </subviews>
                         <color key="backgroundColor" red="1" green="1" blue="1" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
                         <constraints>
@@ -117,6 +121,7 @@
                     </view>
                     <navigationItem key="navigationItem" title="Yelp" id="pXo-gM-kdh"/>
                     <connections>
+                        <outlet property="mapView" destination="yES-vH-gGh" id="pB0-Vb-n0Y"/>
                         <outlet property="tableView" destination="vmv-rd-213" id="29F-hK-ZHQ"/>
                     </connections>
                 </viewController>
